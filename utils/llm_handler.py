@@ -1,6 +1,6 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from utils.ConfigLoader import ConfigLoader
+from utils.config_loader import ConfigLoader
 
 class LLMHandler:
     def __init__(self, model_name: str):

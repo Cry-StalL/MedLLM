@@ -1,8 +1,8 @@
 import csv
 import re
 from datetime import datetime
-from llm_handler import LLMHandler
-from utils.ConfigLoader import ConfigLoader
+from utils.llm_handler import LLMHandler
+from utils.config_loader import ConfigLoader
 
 def load_validation_set(filename):
     data = []
