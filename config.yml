@@ -1,0 +1,4 @@
+model:
+  name: Qwen/Qwen2.5-0.5B-Instruct
+  max_token: 5
+  temperature: 0.7
