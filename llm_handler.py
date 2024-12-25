@@ -1,8 +1,10 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from utils.ConfigLoader import ConfigLoader
 
 class LLMHandler:
     def __init__(self, model_name: str):
+        self.config = ConfigLoader().get_config()
         self.model_name = model_name # Qwen/Qwen2.5-Coder-0.5B 或 Qwen/Qwen2.5-Coder-0.5B-Instruct
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         # 自动检测可用的设备 (GPU / CPU)
@@ -27,8 +29,8 @@ class LLMHandler:
 
         generated_ids = self.model.generate(
             **model_inputs,
-            max_new_tokens=5,
-            temperature=0.7
+            max_new_tokens=self.config['model']['max_token'],
+            temperature=self.config['model']['temperature']
         )
         generated_ids = [
             output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)

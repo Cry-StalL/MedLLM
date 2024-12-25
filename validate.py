@@ -2,6 +2,7 @@ import csv
 import re
 from datetime import datetime
 from llm_handler import LLMHandler
+from utils.ConfigLoader import ConfigLoader
 
 def load_validation_set(filename):
     data = []
@@ -28,9 +29,11 @@ def extract_answer(response):
     else:
         return None  # 如果没有找到匹配的字母
 
+config = ConfigLoader().get_config()
+
 validation_set = load_validation_set('./data/validation_set.csv')
 
-model_instance = LLMHandler("Qwen/Qwen2.5-0.5B-Instruct")
+model_instance = LLMHandler(config['model']['name'])
 
 current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 output_filename = "./output/" + current_time + ".csv"
