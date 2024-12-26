@@ -1,0 +1,9 @@
+model:
+  series: Qwen # Qwen / GPT
+  name: Qwen/Qwen2.5-0.5B-Instruct
+  max_token: 5
+  temperature: 0.7
+
+gpt_config:
+  api_key: 
+  base_url: https://api.chatanywhere.tech/v1

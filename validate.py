@@ -1,7 +1,7 @@
 import csv
 import re
 from datetime import datetime
-from utils.llm_handler import LLMHandler
+from utils.llm_handler import GPTHandler
 from utils.config_loader import ConfigLoader
 
 def load_validation_set(filename):
@@ -33,10 +33,14 @@ config = ConfigLoader().get_config()
 
 validation_set = load_validation_set('./data/validation_set.csv')
 
-model_instance = LLMHandler(config['model']['name'])
+model_instance = None
+if config['model']['series'] == 'Qwen':
+    model_instance = QwenHandler(config['model']['name'])
+else:
+    model_instance = GPTHandler(config['model']['name'])
 
 current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-output_filename = "./output/" + current_time + ".csv"
+output_filename = "./output/" + current_time + '-' + config['model']['name'] + ".csv"
 
 num = 0
 correct_num = 0

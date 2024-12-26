@@ -1,11 +1,21 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from utils.config_loader import ConfigLoader
+from abc import ABC, abstractmethod
+from openai import OpenAI
 
-class LLMHandler:
+class BaseLLMHandler(ABC):
     def __init__(self, model_name: str):
         self.config = ConfigLoader().get_config()
-        self.model_name = model_name # Qwen/Qwen2.5-Coder-0.5B 或 Qwen/Qwen2.5-Coder-0.5B-Instruct
+        self.model_name = model_name  # Qwen/Qwen2.5-Coder-0.5B 或 Qwen/Qwen2.5-Coder-0.5B-Instruct
+
+    @abstractmethod
+    def generate_response(self, prompt: str) -> str:
+        pass
+
+class QwenHandler(BaseLLMHandler):
+    def __init__(self, model_name: str):
+        super().__init__(model_name)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         # 自动检测可用的设备 (GPU / CPU)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -39,3 +49,17 @@ class LLMHandler:
         response = self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 
         return response
+
+class GPTHandler(BaseLLMHandler):
+    def __init__(self, model_name: str):
+        super().__init__(model_name)
+        self.client = OpenAI(
+            api_key=self.config['gpt_config']['api_key'],
+            base_url=self.config['gpt_config']['base_url']
+        )
+
+    def generate_response(self, prompt: str) -> str:
+        messages = [{"role": "user", "content": prompt}]
+        response = self.client.chat.completions.create(model=self.config["model"]["name"], messages=messages, temperature=self.config["model"]["temperature"],
+                                                    max_tokens=self.config["model"]["max_token"])
+        return response.choices[0].message.content
