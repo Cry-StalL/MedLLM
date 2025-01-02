@@ -1,5 +1,6 @@
 import csv
 import re
+import os
 from datetime import datetime
 from utils.llm_handler import LLMHandler
 from utils.config_loader import ConfigLoader
@@ -33,15 +34,19 @@ config = ConfigLoader().get_config()
 
 validation_set = load_validation_set('./data/validation_set.csv')
 
-model_instance = LLMHandler(config['model']['name'])
+model_instance = LLMHandler(config['model']['name_or_path'])
 
 current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-output_filename = "./output/" + current_time + ".csv"
+output_folder = "./output"
+output_path = "./output/" + current_time + ".csv"
 
 num = 0
 correct_num = 0
 
-with open(output_filename, mode='w', newline='', encoding='utf-8') as file:
+if not os.path.exists(output_folder):
+    os.makedirs(output_folder)
+
+with open(output_path, mode='w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(['id', 'question', 'answerA', 'answerB', 'answerC', 'answerD', 'answerE', 'correctAnswer','modelResponse', 'modelAnswer', 'is_correct'])
 

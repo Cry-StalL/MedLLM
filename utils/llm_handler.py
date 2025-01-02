@@ -30,6 +30,7 @@ class LLMHandler:
         generated_ids = self.model.generate(
             **model_inputs,
             max_new_tokens=self.config['model']['max_token'],
+            do_sample=self.config['model']['do_sample'],
             temperature=self.config['model']['temperature']
         )
         generated_ids = [

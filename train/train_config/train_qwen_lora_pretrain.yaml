@@ -1,0 +1,47 @@
+### model
+model_name_or_path: Qwen/Qwen2.5-0.5B
+trust_remote_code: true
+
+### method
+stage: pt # pretraining
+do_train: true
+finetuning_type: lora # faster than 'all'
+lora_target: all # all / "c_attn", "attn.c_proj", "w1", "w2", "mlp.c_proj"
+
+### checkpoint
+resume_from_checkpoint:
+
+### dataset
+dataset: medical_encyclopedia # medical_encyclopedia(361K rows); wikipedia_zh(255k rows), skypile(1.76M rows)
+template: qwen
+cutoff_len: 512 # medical_encyclopedia avg. 400tokens/row; wikipedia_zh avg.379tokens/row
+max_samples: 10000000 #1M
+overwrite_cache: true
+preprocessing_num_workers: 8
+
+### output
+output_dir:
+logging_steps: 10
+save_steps: 100
+plot_loss: true
+overwrite_output_dir: true
+
+### train
+per_device_train_batch_size: 16
+gradient_accumulation_steps: 8 # 4*8=32
+learning_rate: 5.0e-5
+num_train_epochs: 3.0 # commonly 3~5 epochs
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 180000000
+
+### eval
+val_size: 0.1
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 500
+
+### acceleration
+use_unsloth: True
+#flash_attn: fa2 # {auto,disabled,sdpa,fa2} -- Enable FlashAttention for faster training and inference. (default: auto)
