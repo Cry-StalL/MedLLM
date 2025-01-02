@@ -35,3 +35,6 @@ token数：144,732,087
   - output：`answer`
 
 # 训练配置
+
+# 验证
+运行`validate.py`可以验证模型在validation set上的准确度，输出会保存在`output`文件夹。

@@ -7,6 +7,7 @@ class LLMHandler:
         self.config = ConfigLoader().get_config()
         self.model_name = model_name # Qwen/Qwen2.5-Coder-0.5B 或 Qwen/Qwen2.5-Coder-0.5B-Instruct
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.pad_token_id = self.tokenizer.pad_token_id if self.tokenizer.pad_token_id is not None else self.tokenizer.eos_token_id
         # 自动检测可用的设备 (GPU / CPU)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         # 加载模型并将其移动到合适的设备
@@ -31,7 +32,8 @@ class LLMHandler:
             **model_inputs,
             max_new_tokens=self.config['model']['max_token'],
             do_sample=self.config['model']['do_sample'],
-            temperature=self.config['model']['temperature']
+            temperature=self.config['model']['temperature'],
+            pad_token_id=self.pad_token_id,
         )
         generated_ids = [
             output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
