@@ -1,5 +1,5 @@
 model:
-  name_or_path: Qwen/Qwen2.5-0.5B
-  max_token: 20
+  name_or_path: 
+  max_token: 5
   do_sample: True # Adjusting the temperature is effective only when sampling mode is enabled.
   temperature: 0.1
