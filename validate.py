@@ -4,6 +4,9 @@ import os
 from datetime import datetime
 from utils.llm_handler import LLMHandler
 from utils.config_loader import ConfigLoader
+from utils.utils import Extract_answer
+
+no_response_count = 0
 
 def load_validation_set(filename):
     data = []
@@ -22,13 +25,6 @@ def load_validation_set(filename):
             data.append(question_data)
     return data
 
-def extract_answer(response):
-    # 使用正则表达式提取字母
-    match = re.search(r'\b[A-E]\b', response)  # 查找 'A', 'B', 'C', 'D', 'E'
-    if match:
-        return match.group(0)  # 返回匹配的字母
-    else:
-        return None  # 如果没有找到匹配的字母
 
 config = ConfigLoader().get_config()
 
@@ -61,9 +57,9 @@ with open(output_path, mode='w', newline='', encoding='utf-8') as file:
 
         # print(f"prompt:\n{prompt}\n")
 
-        response = model_instance.generate_response(prompt)
+        response = model_instance.generate_response_in_a_letter(prompt)
 
-        extracted_answer = extract_answer(response)
+        extracted_answer = Extract_answer(response, no_response_count)
 
         num = num + 1
         if extracted_answer == question['correctAnswer']:
