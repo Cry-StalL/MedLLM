@@ -57,7 +57,19 @@ with open(output_path, mode='w', newline='', encoding='utf-8') as file:
 
         # print(f"prompt:\n{prompt}\n")
 
-        response = model_instance.generate_response_in_a_letter(prompt)
+        method = config['model']['method']
+        if method == 'direct_prompt':
+            response = model_instance.generate_response_in_a_letter(prompt)
+        elif method == 'cot':
+            response = model_instance.query_response_cot(question)
+        elif method == 'scot':
+            response = model_instance.query_response_scot(question)
+        elif method == 'knowledge_prompt':
+            response = model_instance.query_response_with_knowledge_prompt(question)
+        elif method == 'few_shot_prompt':
+            response = model_instance.query_response_with_few_shot_prompt(question)
+        else:
+            raise ValueError('Unknown method set in config.yml')
 
         extracted_answer = Extract_answer(response, no_response_count)
 
