@@ -4,8 +4,8 @@ from collections import Counter
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-from prompts import knowledge_prompt, few_shot_prompts
-from utils import Extract_closest_tail_uppercase_letter
+from utils.prompts import knowledge_prompt, few_shot_prompts
+from utils.utils import Extract_closest_tail_uppercase_letter
 from utils.config_loader import ConfigLoader
 
 
