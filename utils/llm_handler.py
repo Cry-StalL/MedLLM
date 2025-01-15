@@ -89,7 +89,7 @@ class LLMHandler:
                     f"D.{question['answerD']}\n"
                     f"E.{question['answerE']}\n\n")
 
-        engage_in_cot = "请逐步分析和推理每个选项的合理性与适用性，在**详细思考**后给出最终答案，并以字母形式明确标注，不要在开头给出答案，答案只能在结尾提供。"
+        engage_in_cot = "该题**只有一个正确选项**，你的最后一个字母会被视作你的最终答案。请逐步分析和推理每个选项的合理性与适用性，在**详细思考**后给出最终答案，并以字母形式明确标注，不要在开头给出答案，答案只能在结尾提供。"
 
         messages = [
             {"role": "system", "content": identity},
@@ -133,7 +133,7 @@ class LLMHandler:
                     f"D.{question['answerD']}\n"
                     f"E.{question['answerE']}\n\n")
 
-        engage_in_cot = "请逐步分析和推理每个选项的合理性与适用性，在**详细思考**后给出最终答案，并以字母形式明确标注，不要在开头给出答案，答案只能在结尾提供。"
+        engage_in_cot = "该题**只有一个正确选项**，你的最后一个字母会被视作你的最终答案。请逐步分析和推理每个选项的合理性与适用性，在**详细思考**后给出最终答案，并以字母形式明确标注，不要在开头给出答案，答案只能在结尾提供。"
 
         messages = [
             {"role": "system", "content": knowledge_prompt},
@@ -163,7 +163,7 @@ class LLMHandler:
                     f"D.{question['answerD']}\n"
                     f"E.{question['answerE']}\n\n")
 
-        engage_in_cot = "请逐步分析和推理每个选项的合理性与适用性，在**详细思考**后给出最终答案，并以字母形式明确标注，不要在开头给出答案，答案只能在结尾提供。"
+        engage_in_cot = "该题**只有一个正确选项**，你的最后一个字母会被视作你的最终答案。请逐步分析和推理每个选项的合理性与适用性，在**详细思考**后给出最终答案，并以字母形式明确标注，不要在开头给出答案，答案只能在结尾提供。"
 
         # 打乱 few-shot 示例顺序
         random.shuffle(few_shot_prompts)
